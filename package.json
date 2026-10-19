@@ -1,0 +1,41 @@
+{
+  "name": "webserver",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-or-later",
+  "engines": {
+    "node": "^20.0.0",
+    "npm": "^10.0.0"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production webpack --config webpack.js --progress",
+    "dev": "NODE_ENV=development webpack --config webpack.js --progress",
+    "watch": "NODE_ENV=development webpack --config webpack.js --progress --watch",
+    "lint": "eslint src",
+    "stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css",
+    "tailwind": "npx tailwindcss -i ./src/input.css -o ./src/output.css",
+    "buildAll": "npm i && npm run tailwind && npm run build"
+  },
+  "browserslist": [
+    "extends @nextcloud/browserslist-config"
+  ],
+  "dependencies": {
+    "@nextcloud/dialogs": "^3.1.2",
+    "@nextcloud/files": "^3.10.0",
+    "@nextcloud/initial-state": "^2.2.0",
+    "@nextcloud/vue": "^8.20.0",
+    "file-type": "^19.6.0",
+    "i18next": "^24.0.2",
+    "jszip": "^3.10.1",
+    "vue": "^2.7.16",
+    "vue-material-design-icons": "^5.3.1"
+  },
+  "devDependencies": {
+    "@nextcloud/browserslist-config": "^3.0.1",
+    "@nextcloud/eslint-config": "^8.3.0",
+    "@nextcloud/stylelint-config": "^2.4.0",
+    "@nextcloud/webpack-vue-config": "^6.0.1",
+    "eslint-webpack-plugin": "^4.1.0",
+    "stylelint-webpack-plugin": "^5.0.0",
+    "tailwindcss": "^3.4.15"
+  }
+}
