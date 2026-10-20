@@ -13,9 +13,11 @@ error_reporting(E_ALL);
 
 <?php
     include __DIR__ . '/ProgressBar.php';
+    include __DIR__ . '/EditFileName.php';
 ?>
     
 </body>
-<script src="./ProgressBar.js" defer></script>
+<script src="./js/ProgressBar.js" defer></script>
+<script src="./js/EditFileName.js" defer></script>
 <script src="https://cdn.tailwindcss.com"></script>
 </html>
