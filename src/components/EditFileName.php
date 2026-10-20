@@ -1,71 +1,63 @@
-<template>
+<?php
+  function fileNameEditor(string $initialFileName, bool $isDirectory, callable $translate) {    
+    $newFileName = $initialFileName;
+    $extension = '';
+    $nbParts = 1;
+    if (!$isDirectory) {
+      $nameSplit = explode('.', $newFileName);
+      $nbParts = count($nameSplit);
+      if (count($nameSplit) > 1) {
+        $extension = array_pop($nameSplit);
+        $newFileName = implode('.', $nameSplit);
+      }
+    }
+    return ['newFileName' => $newFileName, 'extension' => $extension, 'nbParts' => $nbParts, 'translate' => $translate];
+  }
+
+  $editor = fileNameEditor(
+    'document.pdf',
+    false,
+    fn($key) => $key
+  );
+
+  extract($editor);
+?>
   <div
     class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50"
-    @click="closeModal"
+    id = "fileNameModal"
   >
     <div class="dark:bg-NcBlack bg-white rounded-lg shadow-lg p-6 w-96" @click.stop>
-      <h2 class="text-lg font-semibold mb-4">{{ translate('modify.file.name') }}</h2>
+      <h2 class="text-lg font-semibold mb-4"><?= htmlspecialchars($translate('modify.file.name'), ENT_QUOTES, 'UTF-8') ?></h2>
       <input
-        type="text"
-        v-model="newFileName"
-        @input="onInputChange"
-        @keyup.enter="save"
-        placeholder="Entrez le nom du fichier"
-        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
+          type="text"
+          id="newFileName"
+          value="<?= htmlspecialchars($newFileName, ENT_QUOTES, 'UTF-8') ?>"
+          data-is-directory="<?= $isDirectory ? 'true' : 'false' ?>"
+          data-extension="<?= htmlspecialchars($extension, ENT_QUOTES, 'UTF-8') ?>"
+          @keyup.enter="save"
+          placeholder="Entrez le nom du fichier"
+          class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
       <div class="flex justify-end mt-4 space-x-2">
         <button
           @click="save"
           class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition"
         >
-          {{ translate('rename') }}
+          <?= htmlspecialchars($translate('rename'), ENT_QUOTES, 'UTF-8') ?>
         </button>
         <button
-          @click="closeModal"
+          id = "cancelButton"
           class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition"
         >
-          {{ translate('cancel') }}
+          <?= htmlspecialchars($translate('cancel'), ENT_QUOTES, 'UTF-8') ?>
         </button>
       </div>
     </div>
   </div>
-</template>
 
 <script>
 export default {
   name: 'FileNameEditor',
-  props: {
-    initialFileName: {
-      type: String,
-      required: true,
-    },
-    isDirectory: {
-      type: Boolean,
-      required: true,
-    },
-    translate: {
-      type: Function,
-      Required: true,
-    },
-  },
-  data() {
-    let newFileName = this.initialFileName;
-    let extension = '';
-    let nbParts = 1;
-    if (!this.isDirectory) {
-      let nameSplit = newFileName.split('.');
-      nbParts = nameSplit.length;
-      if (nameSplit.length > 1) {
-        extension = nameSplit.pop();
-      }
-    }
-
-    return {
-      newFileName,
-      extension,
-      nbParts,
-    };
-  },
   methods: {
     save() {
       if (this.newFileName !== '') {
@@ -92,39 +84,7 @@ export default {
         }
       }
     },
-    closeModal() {
-      this.$emit('close');
-    },
-    onInputChange() {
-      if (!this.isDirectory) {
-        this.newFileName = this.removeExtensionSurplus(this.newFileName);
-        let lastIndex = this.newFileName.lastIndexOf('.');
-        let fileNameWithoutExtension;
-        if (lastIndex != -1) {
-          fileNameWithoutExtension = this.newFileName.slice(0, lastIndex);
-        } else {
-          fileNameWithoutExtension = this.newFileName.slice(0);
-        }
-
-        const newFileNameWithOriginalExtension = fileNameWithoutExtension + '.' + this.extension;
-
-        // Si l'extension est différente de celle d'origine, on la rétablit
-        if (this.extension !== '' && this.newFileName !== newFileNameWithOriginalExtension) {
-          // Vous pouvez ici vérifier si l'extension a été modifiée et la rétablir
-          this.newFileName = newFileNameWithOriginalExtension;
-        }
-      }
-    },
-    removeExtensionSurplus(name) {
-      let splitName = name.split('.');
-
-      if (this.nbParts != splitName.length) {
-        let lenExtension = this.extension.length;
-        return name.slice(0, name.length - lenExtension);
-      } else {
-        return name;
-      }
-    },
+    
   },
 };
 </script>
