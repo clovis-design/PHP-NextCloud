@@ -8,10 +8,15 @@
       $nbParts = count($nameSplit);
       if (count($nameSplit) > 1) {
         $extension = array_pop($nameSplit);
-        $newFileName = implode('.', $nameSplit);
       }
-    }
-    return ['newFileName' => $newFileName, 'extension' => $extension, 'nbParts' => $nbParts, 'translate' => $translate];
+    }return [
+        'initialFileName' => $initialFileName,
+        'newFileName' => $newFileName,
+        'isDirectory' => $isDirectory,
+        'extension' => $extension,
+        'nbParts' => $nbParts,
+        'translate' => $translate
+    ];
   }
 
   $editor = fileNameEditor(
@@ -26,7 +31,7 @@
     class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50"
     id = "fileNameModal"
   >
-    <div class="dark:bg-NcBlack bg-white rounded-lg shadow-lg p-6 w-96" @click.stop>
+    <div class="dark:bg-NcBlack bg-white rounded-lg shadow-lg p-6 w-96">
       <h2 class="text-lg font-semibold mb-4"><?= htmlspecialchars($translate('modify.file.name'), ENT_QUOTES, 'UTF-8') ?></h2>
       <input
           type="text"
@@ -34,13 +39,13 @@
           value="<?= htmlspecialchars($newFileName, ENT_QUOTES, 'UTF-8') ?>"
           data-is-directory="<?= $isDirectory ? 'true' : 'false' ?>"
           data-extension="<?= htmlspecialchars($extension, ENT_QUOTES, 'UTF-8') ?>"
-          @keyup.enter="save"
+          data-nb-parts="<?= $nbParts ?>"
           placeholder="Entrez le nom du fichier"
           class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       <div class="flex justify-end mt-4 space-x-2">
         <button
-          @click="save"
+          id="saveButton"
           class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition"
         >
           <?= htmlspecialchars($translate('rename'), ENT_QUOTES, 'UTF-8') ?>
@@ -54,39 +59,5 @@
       </div>
     </div>
   </div>
-
-<script>
-export default {
-  name: 'FileNameEditor',
-  methods: {
-    save() {
-      if (this.newFileName !== '') {
-        // Séparer le nom de fichier sans l'extension
-        const fileNameWithoutExtension = this.newFileName.slice(
-          0,
-          this.newFileName.lastIndexOf('.'),
-        );
-        const fileNameWithoutPoints = fileNameWithoutExtension.replace(/\./g, '');
-        if (fileNameWithoutPoints !== '') {
-          // Re-construire le nom du fichier avec l'extension d'origine
-          const newFileNameWithOriginalExtension = fileNameWithoutExtension + '.' + this.extension;
-
-          if (!this.isDirectory && this.newFileName !== newFileNameWithOriginalExtension) {
-            // L'extension a été modifiée, on rétablit l'extension correcte
-            this.newFileName = newFileNameWithOriginalExtension;
-          }
-
-          this.$emit('update', {
-            initialFileName: this.initialFileName,
-            newFileName: this.newFileName,
-          });
-          this.closeModal();
-        }
-      }
-    },
-    
-  },
-};
-</script>
 
 <style scoped></style>
