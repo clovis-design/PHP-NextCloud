@@ -20,10 +20,10 @@
   }
 
   $editor = fileNameEditor(
-    'document.pdf',
-    false,
-    fn($key) => $key
-  );
+    $initialFileName,
+    $isDirectory,
+    $translate
+);
 
   extract($editor);
 ?>

@@ -8,16 +8,16 @@ error_reporting(E_ALL);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../output.css">
 </head>
 <body>
 
 <?php
     include __DIR__ . '/ProgressBar.php';
-    include __DIR__ . '/EditFileName.php';
+    include __DIR__ . '/FileExistsDialog.php';
 ?>
     
 </body>
 <script src="./js/ProgressBar.js" defer></script>
-<script src="./js/EditFileName.js" defer></script>
-<script src="https://cdn.tailwindcss.com"></script>
+<script src="./js/FileExistsDialog.js" defer></script>
 </html>

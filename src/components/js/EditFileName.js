@@ -10,6 +10,12 @@ const saveButton = document.getElementById('saveButton');
 function closeModal() {
   const modal = document.getElementById('fileNameModal');
   modal.style.display = 'none';
+
+  modal.dispatchEvent(
+    new CustomEvent('filename:cancel', {
+      bubbles: true,
+    }),
+  );
 }
 
 function removeExtensionSurplus(name) {
@@ -84,8 +90,6 @@ function save() {
   );
 
   closeModal();
-
-  console.log('Nouveau nom :', newFileName);
 }
 
 document.getElementById('cancelButton').addEventListener('click', closeModal);
