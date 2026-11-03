@@ -13,11 +13,15 @@ error_reporting(E_ALL);
 <body>
 
 <?php
+    $zipUrl = 'https://exemple.fr/archive.zip';
+
+    // Fonction de traduction temporaire
+    $translate = fn($key) => $key;
     include __DIR__ . '/ProgressBar.php';
-    include __DIR__ . '/FileExistsDialog.php';
+    include __DIR__ . '/WebContentViewer.php';
 ?>
     
 </body>
 <script src="./js/ProgressBar.js" defer></script>
-<script src="./js/FileExistsDialog.js" defer></script>
+<script src="./js/WebContentViewer.js" defer></script>
 </html>
