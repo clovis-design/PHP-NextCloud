@@ -1,4 +1,3 @@
-
 <?php
 
 declare(strict_types=1);
@@ -11,8 +10,15 @@ $appId = OCA\WebTransfer\AppInfo\Application::APP_ID;
 Util::addStyle($appId, 'output');
 
 Util::addScript($appId, 'vendor/jszip.min');
-Util::addScript($appId, 'WebContentViewer');
+
+// Composants
+Util::addScript($appId, 'EditFileName');
+Util::addScript($appId, 'FileExistsDialog');
+Util::addScript($appId, 'ProgressBar');
 Util::addScript($appId, 'FileTable');
+Util::addScript($appId, 'WebContentViewer');
+
+// Initialisation principale en dernier
 Util::addScript($appId, 'App');
 
 // Paramètres transmis par le contrôleur Nextcloud
@@ -23,7 +29,9 @@ $mode = $_['mode'] ?? '';
 $zipUrl = $archiveUrl;
 
 // Traduction temporaire
-$translate = fn($key) => $key;
+$translate = fn($key) => \OC::$server
+    ->getL10N('webtransfer')
+    ->t($key);
 ?>
 
 <!-- Informations utilisées par le JavaScript -->
@@ -43,5 +51,5 @@ $translate = fn($key) => $key;
 
 <!-- Application WebTransfer -->
 <div id="webtransfer">
-    <?php include __DIR__ . '/App.php'; ?>
+    <?php require __DIR__ . '/../src/App.php'; ?>
 </div>

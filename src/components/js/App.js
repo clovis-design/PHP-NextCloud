@@ -20,8 +20,10 @@ if (app) {
   const urlParams = new URLSearchParams(window.location.search);
   const isTestMode = urlParams.get('test') === 'true';
 
-  normalMode.hidden = isTestMode;
-  testMode.hidden = !isTestMode;
+  if (normalMode && testMode) {
+    normalMode.hidden = isTestMode;
+    testMode.hidden = !isTestMode;
+  }
 
   // Équivalent de handleFileUpload()
   function handleFileUpload(file) {

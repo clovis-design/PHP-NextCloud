@@ -41,7 +41,7 @@ $escape = fn($value) => htmlspecialchars(
                 // Props de WebContentViewer
                 // $zipUrl et $translate sont déjà disponibles
 
-                include __DIR__ . '/WebContentViewer.php';
+                include __DIR__ . '/components/WebContentViewer.php';
             ?>
         </div>
 
@@ -54,7 +54,7 @@ $escape = fn($value) => htmlspecialchars(
                 $file = null;
                 $dragEnded = false;
 
-                include __DIR__ . '/FileTable.php';
+                include __DIR__ . '/components/FileTable.php';
             ?>
         </div>
     </div>
