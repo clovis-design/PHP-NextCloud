@@ -20,4 +20,5 @@ error_reporting(E_ALL);
 </body>
 <script src="./js/ProgressBar.js" defer></script>
 <script src="./js/FileExistsDialog.js" defer></script>
+<script src="./js/FileTable.js" defer></script>
 </html>
